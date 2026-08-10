@@ -158,6 +158,31 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
+              {/* Project Link */}
+              {project.link !== "#" ? (
+                <a 
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="view-btn text-sm font-semibold"
+                  style={{
+                    color: project.color,
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                >
+                  View Project
+                  <span className="text-lg">→</span>
+                </a>  
+              ) : (
+                <span
+                  className="text-gray-600 text-sm font-medium"
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                >
+                  Coming Soon
+                </span>  
+              )}
             </div>
           </div>
         ))}
