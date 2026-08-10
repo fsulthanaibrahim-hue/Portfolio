@@ -10,7 +10,7 @@ const projects = [
     description:
       "A full-featured e-commerce web app with product listings, cart management, authentication, and payment integration.",
     image: TRENDORA,
-    link: "#",
+    link: "https://ecommerce-project1-trendora.vercel.app/",
     tags: ["React.js", "Django", "REST API", "Tailwind"],
     color: "#f472b6",
     num: "01",
@@ -32,7 +32,7 @@ const projects = [
     description:
       "A comprehensive admin system for managing students, teachers, batches, and courses — built with React and Django REST Framework.",
     image: ZIAS,
-    link: "#",
+    link: "https://zias-frontend.onrender.com/",
     tags: ["React.js", "Django REST", "Tailwind", "JWT"],
     color: "#34d399",
     num: "03",
