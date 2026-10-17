@@ -1,133 +1,323 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FaReact, FaPython, FaGitAlt, FaHtml5, FaCss3Alt, FaJs } from "react-icons/fa";
-import { SiDjango, SiTailwindcss } from "react-icons/si";
-import { MdHttp } from "react-icons/md";
 
-const skills = [
-  { name: "React.js",       level: 80, icon: <FaReact />,       color: "#38bdf8", cat: "Frontend" },
-  { name: "HTML5",          level: 90, icon: <FaHtml5 />,       color: "#fb923c", cat: "Frontend" },
-  { name: "CSS / Tailwind", level: 85, icon: <SiTailwindcss />, color: "#818cf8", cat: "Frontend" },
-  { name: "JavaScript",     level: 75, icon: <FaJs />,          color: "#fbbf24", cat: "Frontend" },
-  { name: "Django",         level: 80, icon: <SiDjango />,      color: "#34d399", cat: "Backend"  },
-  { name: "Python",         level: 80, icon: <FaPython />,      color: "#facc15", cat: "Backend"  },
-  { name: "REST APIs",      level: 70, icon: <MdHttp />,        color: "#f472b6", cat: "Backend"  },
-  { name: "Git / GitHub",   level: 85, icon: <FaGitAlt />,      color: "#f87171", cat: "Tools"    },
+import React, { useEffect, useRef, useState } from "react";
+import {
+  FaReact,
+  FaPython,
+  FaGitAlt,
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaDocker,
+  FaGithub,
+  FaAws,
+} from "react-icons/fa";
+
+import {
+  SiDjango,
+  SiFastapi,
+  SiFlask,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiPostgresql,
+  SiMongodb,
+  SiSqlalchemy,
+  SiSwagger,
+  SiPostman,
+  SiGithubactions,
+  SiVercel,
+  SiRender,
+  SiPytest,
+  SiJsonwebtokens,
+} from "react-icons/si";
+
+const skillGroups = [
+  {
+    title: "Frontend Development",
+    description: "Building responsive, modern user interfaces.",
+    skills: [
+      { name: "React.js", icon: <FaReact /> },
+      { name: "Next.js", icon: <SiNextdotjs /> },
+      { name: "JavaScript", icon: <FaJs /> },
+      { name: "TypeScript", icon: <SiTypescript /> },
+      { name: "HTML5", icon: <FaHtml5 /> },
+      { name: "CSS3", icon: <FaCss3Alt /> },
+      { name: "Tailwind CSS", icon: <SiTailwindcss /> },
+    ],
+  },
+  {
+    title: "Python & Backend",
+    description: "Developing APIs and application backends.",
+    skills: [
+      { name: "Python", icon: <FaPython /> },
+      { name: "Django", icon: <SiDjango /> },
+      { name: "Django REST Framework", icon: <SiDjango /> },
+      { name: "Flask", icon: <SiFlask /> },
+      { name: "FastAPI", icon: <SiFastapi /> },
+      { name: "SQLAlchemy", icon: <SiSqlalchemy /> },
+      { name: "JWT Authentication", icon: <SiJsonwebtokens /> },
+      { name: "REST APIs", icon: <FaPython /> },
+    ],
+  },
+  {
+    title: "Databases & Data",
+    description: "Working with relational and document databases.",
+    skills: [
+      { name: "PostgreSQL", icon: <SiPostgresql /> },
+      { name: "MongoDB", icon: <SiMongodb /> },
+      { name: "Database Design", icon: <SiPostgresql /> },
+      { name: "ORM & Migrations", icon: <SiSqlalchemy /> },
+    ],
+  },
+  {
+    title: "Testing & API Tools",
+    description: "Testing endpoints and improving API reliability.",
+    skills: [
+      { name: "Postman", icon: <SiPostman /> },
+      { name: "Swagger / OpenAPI", icon: <SiSwagger /> },
+      { name: "Pytest", icon: <SiPytest /> },
+      { name: "API Integration", icon: <SiSwagger /> },
+    ],
+  },
+  {
+    title: "Tools & Deployment",
+    description: "Version control, deployment and delivery workflows.",
+    skills: [
+      { name: "Git", icon: <FaGitAlt /> },
+      { name: "GitHub", icon: <FaGithub /> },
+      { name: "Docker", icon: <FaDocker /> },
+      { name: "AWS", icon: <FaAws /> },
+      { name: "GitHub Actions / CI-CD", icon: <SiGithubactions /> },
+      { name: "Vercel", icon: <SiVercel /> },
+      { name: "Render", icon: <SiRender /> },
+    ],
+  },
 ];
 
-const SkillBar = ({ skill, visible }) => (
-  <div className="skill-item group">
-    <div className="flex items-center justify-between mb-2">
-      <div className="flex items-center gap-2.5">
-        <span className="text-lg" style={{ color: skill.color }}>{skill.icon}</span>
-        <span className="text-sm font-medium text-gray-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>{skill.name}</span>
-      </div>
-      <span className="text-xs font-semibold" style={{ color: skill.color, fontFamily: "'Syne', sans-serif" }}>
-        {skill.level}%
-      </span>
-    </div>
-    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-      <div
-        className="h-full rounded-full transition-all duration-1000 ease-out"
-        style={{
-          width: visible ? `${skill.level}%` : "0%",
-          background: `linear-gradient(90deg, ${skill.color}99, ${skill.color})`,
-          boxShadow: `0 0 12px ${skill.color}60`,
-        }}
-      />
-    </div>
-  </div>
-);
-
 const Skills = () => {
+  const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section) return;
+
+    // Show content immediately if reduced motion is preferred
+    // or IntersectionObserver is unavailable.
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !("IntersectionObserver" in window)
+    ) {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.2 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08 }
     );
-    if (ref.current) observer.observe(ref.current);
+
+    observer.observe(section);
+
     return () => observer.disconnect();
   }, []);
-
-  const categories = [...new Set(skills.map(s => s.cat))];
 
   return (
     <section
       id="skills"
-      className="relative py-28 px-6 md:px-16 bg-[#050508] text-white overflow-hidden"
-      ref={ref}
-      style={{ fontFamily: "'Syne', sans-serif" }}
+      ref={sectionRef}
+      className="skills-section relative isolate overflow-hidden bg-[#03140c] px-5 py-24 text-white sm:px-8 md:px-16 md:py-32"
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-        .skill-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.06);
-          transition: border-color 0.3s, transform 0.3s;
+        .skills-card {
+          background: linear-gradient(
+            145deg,
+            rgba(16, 45, 30, 0.72),
+            rgba(5, 22, 14, 0.82)
+          );
+          border: 1px solid rgba(110, 231, 183, 0.12);
+          box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+          transition:
+            transform 350ms ease,
+            border-color 350ms ease,
+            background 350ms ease,
+            box-shadow 350ms ease;
         }
-        .skill-card:hover {
-          border-color: rgba(168,85,247,0.25);
-          transform: translateY(-4px);
+
+        .skills-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(110, 231, 183, 0.38);
+          background: linear-gradient(
+            145deg,
+            rgba(18, 59, 38, 0.88),
+            rgba(5, 27, 17, 0.95)
+          );
+          box-shadow: 0 20px 55px rgba(0, 0, 0, 0.2);
         }
-        .cat-label {
-          background: rgba(168,85,247,0.08);
-          border: 1px solid rgba(168,85,247,0.2);
+
+        .skill-tile {
+          background: rgba(255, 255, 255, 0.025);
+          border: 1px solid rgba(255, 255, 255, 0.065);
+          transition:
+            background 250ms ease,
+            border-color 250ms ease,
+            transform 250ms ease;
+        }
+
+        .skill-tile:hover {
+          background: rgba(52, 211, 153, 0.075);
+          border-color: rgba(110, 231, 183, 0.28);
+          transform: translateY(-2px);
+        }
+
+        .skills-reveal {
+          opacity: 0;
+          transform: translateY(22px);
+          transition:
+            opacity 650ms ease,
+            transform 650ms ease;
+        }
+
+        .skills-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .skills-heading-gradient {
+          background: linear-gradient(110deg, #ffffff 10%, #a7f3d0 55%, #fcd34d 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .skills-reveal,
+          .skills-card,
+          .skill-tile {
+            opacity: 1;
+            transform: none;
+            transition: none;
+          }
         }
       `}</style>
 
-      {/* blobs */}
-      <div className="absolute top-1/4 left-0 w-[350px] h-[350px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 70%)" }} />
+      {/* Background glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 top-20 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(16,185,129,0.13), transparent 70%)",
+        }}
+      />
 
-      {/* header */}
-      <div className="max-w-6xl mx-auto mb-16">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-8 h-px bg-purple-500" />
-          <span className="text-purple-400 text-xs tracking-[0.25em] uppercase font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Expertise
-          </span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
-          Technical{" "}
-          <span style={{
-            background: "linear-gradient(135deg, #a855f7, #ec4899)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            Skills
-          </span>
-        </h2>
-      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 bottom-10 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(250,204,21,0.07), transparent 70%)",
+        }}
+      />
 
-      {/* grouped by category */}
-      <div className="max-w-6xl mx-auto space-y-10">
-        {categories.map((cat) => (
-          <div key={cat}>
-            <div className="flex items-center gap-3 mb-6">
-              <span className="cat-label text-purple-400 text-xs font-semibold px-3 py-1 rounded-full tracking-wider uppercase" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                {cat}
-              </span>
-              <div className="h-px flex-1 bg-white/5" />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {skills.filter(s => s.cat === cat).map((skill, i) => (
-                <div key={i} className="skill-card rounded-2xl p-5">
-                  <SkillBar skill={skill} visible={visible} />
-                </div>
-              ))}
-            </div>
+      <div className="mx-auto max-w-7xl">
+        {/* Section heading */}
+        <div
+          className={`skills-reveal mb-14 max-w-3xl ${
+            visible ? "is-visible" : ""
+          }`}
+        >
+          <div className="mb-5 flex items-center gap-3">
+            <span className="h-px w-9 bg-emerald-400" />
+            <span className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300">
+              My Expertise
+            </span>
           </div>
-        ))}
-      </div>
 
-      {/* bottom note */}
-      <p className="text-center text-gray-600 text-xs mt-16 max-w-md mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-        Continuously learning and levelling up — currently exploring TypeScript, Next.js, and cloud deployments.
-      </p>
+          <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+            Technologies I{" "}
+            <span className="skills-heading-gradient">Work With</span>
+          </h2>
+
+          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
+            My full-stack development toolkit covers Python backend
+            development, modern frontend interfaces, databases, API
+            development, testing and deployment tools.
+          </p>
+        </div>
+
+        {/* Skills categories */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {skillGroups.map((group, index) => (
+            <article
+              key={group.title}
+              className={`skills-card skills-reveal rounded-2xl p-6 sm:p-7 ${
+                visible ? "is-visible" : ""
+              }`}
+              style={{
+                transitionDelay: visible ? `${Math.min(index * 90, 360)}ms` : "0ms",
+              }}
+            >
+              {/* Category heading */}
+              <div className="mb-6 flex items-start gap-4">
+                <div className="mt-1 h-9 w-1 shrink-0 rounded-full bg-gradient-to-b from-emerald-300 to-yellow-400" />
+
+                <div>
+                  <h3 className="text-lg font-semibold tracking-wide text-white sm:text-xl">
+                    {group.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-gray-400">
+                    {group.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Individual technology tiles */}
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-2">
+                {group.skills.map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="skill-tile flex min-h-[62px] items-center gap-3 rounded-xl px-3 py-3 sm:px-4"
+                  >
+                    <span className="shrink-0 text-xl text-emerald-300">
+                      {skill.icon}
+                    </span>
+
+                    <span className="text-xs font-medium leading-5 text-gray-200 sm:text-sm">
+                      {skill.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Closing message */}
+        <div
+          className={`skills-reveal mt-14 text-center ${
+            visible ? "is-visible" : ""
+          }`}
+          style={{ transitionDelay: "300ms" }}
+        >
+          <div className="mx-auto mb-4 h-px w-16 bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
+
+          <p className="text-sm leading-7 text-gray-400 sm:text-base">
+            Focused on continuous learning, practical projects and building
+            useful applications.
+          </p>
+
+          <p className="mt-2 text-xs tracking-wide text-emerald-300/80">
+            Learn · Build · Improve
+          </p>
+        </div>
+      </div>
     </section>
   );
 };

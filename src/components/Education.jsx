@@ -1,25 +1,42 @@
+
 import React from "react";
 
 const education = [
   {
-    institution: "S.A.B.T.M.H.S.S Thayineri",
+    institution: "S.A.B.T.M.H.S.S. Thayineri",
     location: "Payyanur, Kerala",
     degree: "Higher Secondary Education",
     year: "2022 – 2024",
     icon: "🎓",
     tags: ["Science Stream"],
-    color: "#818cf8",
+    type: "education",
   },
   {
-    institution: "FullStack Development Training",
-    location: "ZIAS Academy",
-    degree: "Frontend & Backend Development",
+    institution: "Pictech Institute",
+    location: "Payyanur, Kerala",
+    degree: "English & Arabic Typing",
+    year: "2025",
+    icon: "⌨️",
+    tags: ["English Typing", "Arabic Typing"],
+    type: "certification",
+  },
+  {
+    institution: "ZIAS Academy",
+    location: "Kerala",
+    degree: "Full Stack Development Training",
     year: "2025 – 2026",
     icon: "💻",
-    tags: ["React.js", "Python", "Django", "DRF", "HTML", "CSS", "JavaScript"],
+    tags: [
+      "React.js",
+      "Python",
+      "Django",
+      "Django REST Framework",
+      "HTML",
+      "CSS",
+      "JavaScript",
+    ],
     projects: ["TRENDORA", "EYRA", "ZIAS"],
-    color: "#a855f7",
-    current: true,
+    type: "training",
   },
 ];
 
@@ -27,138 +44,184 @@ const Education = () => {
   return (
     <section
       id="education"
-      className="relative py-28 px-6 md:px-16 bg-[#050508] text-white overflow-hidden"
-      style={{ fontFamily: "'Syne', sans-serif" }}
+      className="relative isolate overflow-hidden bg-[#03140c] px-5 py-24 text-white sm:px-8 md:px-16 md:py-32"
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-        .edu-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.07);
-          transition: border-color 0.3s, transform 0.3s;
+        .education-card {
           position: relative;
+          background: linear-gradient(
+            145deg,
+            rgba(16, 45, 30, 0.72),
+            rgba(5, 22, 14, 0.88)
+          );
+          border: 1px solid rgba(110, 231, 183, 0.13);
+          transition:
+            transform 300ms ease,
+            border-color 300ms ease,
+            box-shadow 300ms ease;
         }
-        .edu-card:hover {
-          transform: translateX(6px);
-          border-color: rgba(168,85,247,0.3);
+
+        .education-card:hover {
+          transform: translateX(5px);
+          border-color: rgba(110, 231, 183, 0.38);
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
         }
-        .edu-card.current {
-          border-color: rgba(168,85,247,0.2);
+
+        .education-tag {
+          border: 1px solid rgba(110, 231, 183, 0.15);
+          background: rgba(16, 185, 129, 0.06);
+          color: #a7f3d0;
         }
-        .edu-tag {
-          background: rgba(168,85,247,0.08);
-          border: 1px solid rgba(168,85,247,0.2);
-          transition: background 0.2s;
+
+        .education-project-tag {
+          border: 1px solid rgba(252, 211, 77, 0.18);
+          background: rgba(252, 211, 77, 0.06);
+          color: #fde68a;
         }
-        .edu-tag:hover { background: rgba(168,85,247,0.18); }
-        .project-tag {
-          background: rgba(236,72,153,0.08);
-          border: 1px solid rgba(236,72,153,0.2);
-          color: #f9a8d4;
+
+        .education-heading-gradient {
+          background: linear-gradient(
+            110deg,
+            #a7f3d0 5%,
+            #34d399 55%,
+            #fcd34d 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
-        .timeline-dot::before {
-          content: '';
-          position: absolute;
-          left: -25px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(168,85,247,0.8);
-          box-shadow: 0 0 12px rgba(168,85,247,0.6);
+
+        @media (prefers-reduced-motion: reduce) {
+          .education-card {
+            transition: none;
+          }
+
+          .education-card:hover {
+            transform: none;
+          }
         }
       `}</style>
 
-      {/* blobs */}
-      <div className="absolute top-0 right-0 w-[350px] h-[350px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)" }} />
+      {/* Background glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-32 top-10 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)",
+        }}
+      />
 
-      {/* header */}
-      <div className="max-w-3xl mx-auto mb-16">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-8 h-px bg-purple-500" />
-          <span className="text-purple-400 text-xs tracking-[0.25em] uppercase font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Background
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 bottom-0 -z-10 h-80 w-80 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(250,204,21,0.06), transparent 70%)",
+        }}
+      />
+
+      {/* Section heading */}
+      <div className="mx-auto mb-16 max-w-3xl">
+        <div className="mb-5 flex items-center gap-3">
+          <span className="h-px w-9 bg-emerald-400" />
+          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300">
+            My Background
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
+
+        <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Education &{" "}
-          <span style={{
-            background: "linear-gradient(135deg, #a855f7, #ec4899)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            Training
-          </span>
+          <span className="education-heading-gradient">Training</span>
         </h2>
+
+        <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
+          My educational journey, professional training, and additional
+          skills that support my development as a full-stack developer.
+        </p>
       </div>
 
-      {/* timeline */}
-      <div className="max-w-3xl mx-auto relative">
-        {/* vertical line */}
-        <div className="absolute left-5 top-8 bottom-8 w-px bg-gradient-to-b from-purple-500/40 via-purple-500/20 to-transparent" />
+      {/* Education timeline */}
+      <div className="relative mx-auto max-w-3xl">
+        {/* Timeline line */}
+        <div className="absolute bottom-8 left-5 top-8 w-px bg-gradient-to-b from-emerald-400/60 via-emerald-400/25 to-transparent" />
 
         <div className="space-y-8 pl-16">
-          {education.map((edu, i) => (
-            <div key={i} className="relative timeline-dot">
-              {/* dot with icon */}
+          {education.map((edu) => (
+            <article key={edu.institution} className="relative">
+              {/* Timeline icon */}
               <div
-                className="absolute -left-[52px] top-6 w-10 h-10 rounded-xl flex items-center justify-center text-xl border"
-                style={{
-                  background: `${edu.color}15`,
-                  borderColor: `${edu.color}30`,
-                  boxShadow: `0 0 20px ${edu.color}20`,
-                }}
+                className="absolute -left-[52px] top-6 flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-300/20 bg-[#0b2919] text-xl shadow-lg shadow-emerald-950/30"
+                aria-hidden="true"
               >
                 {edu.icon}
               </div>
 
-              <div className={`edu-card ${edu.current ? "current" : ""} rounded-2xl p-6`}>
-                {/* current badge */}
-                {edu.current && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-emerald-400 text-[10px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>Ongoing</span>
-                  </div>
-                )}
+              {/* Education card */}
+              <div className="education-card rounded-2xl p-6 sm:p-7">
+                {/* Type label */}
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                  <span className="rounded-full border border-emerald-300/15 bg-emerald-300/[0.05] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-300">
+                    {edu.type === "education"
+                      ? "Education"
+                      : edu.type === "certification"
+                      ? "Typing Course"
+                      : "Professional Training"}
+                  </span>
 
-                <div className="mb-4">
-                  <div className="flex items-start gap-2 mb-1">
-                    <h3 className="text-lg font-bold text-white leading-tight">{edu.institution}</h3>
-                  </div>
-                  <p className="text-gray-500 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>{edu.location}</p>
+                  <span className="text-xs font-semibold tracking-wide text-amber-300">
+                    {edu.year}
+                  </span>
                 </div>
 
-                <p className="text-gray-300 text-sm mb-1 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>{edu.degree}</p>
-                <p className="text-purple-400 text-xs font-semibold mb-4 tracking-wide">{edu.year}</p>
+                {/* Institution */}
+                <h3 className="text-lg font-bold leading-snug text-white sm:text-xl">
+                  {edu.institution}
+                </h3>
 
-                {/* skill tags */}
+                <p className="mt-2 text-xs text-gray-500 sm:text-sm">
+                  {edu.location}
+                </p>
+
+                <p className="mt-4 text-sm font-medium text-gray-200">
+                  {edu.degree}
+                </p>
+
+                {/* Skills and course details */}
                 {edu.tags && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {edu.tags.map(tag => (
-                      <span key={tag} className="edu-tag text-purple-300 text-[11px] font-medium px-2.5 py-1 rounded-full" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {edu.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="education-tag rounded-full px-3 py-1.5 text-[11px] font-medium"
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
                 )}
 
-                {/* project tags */}
+                {/* Projects */}
                 {edu.projects && (
-                  <div>
-                    <p className="text-gray-600 text-[11px] uppercase tracking-widest mb-2 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>Projects built</p>
+                  <div className="mt-6 border-t border-white/[0.07] pt-5">
+                    <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      Projects Built
+                    </p>
+
                     <div className="flex flex-wrap gap-2">
-                      {edu.projects.map(p => (
-                        <span key={p} className="project-tag text-[11px] font-semibold px-3 py-1 rounded-full" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                          {p}
+                      {edu.projects.map((project) => (
+                        <span
+                          key={project}
+                          className="education-project-tag rounded-full px-3 py-1.5 text-[11px] font-semibold"
+                        >
+                          {project}
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

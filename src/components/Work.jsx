@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import TRENDORA from "../assets/TRENDORA.png";
 import EYRA from "../assets/EYRA.png";
@@ -8,34 +9,34 @@ const projects = [
     name: "TRENDORA",
     tagline: "E-Commerce Platform",
     description:
-      "A full-featured e-commerce web app with product listings, cart management, authentication, and payment integration.",
+      "A full-stack e-commerce application featuring product listings, cart management, authentication, and payment integration.",
     image: TRENDORA,
     link: "https://ecommerce-project1-trendora.vercel.app/",
-    tags: ["React.js", "Django", "REST API", "Tailwind"],
-    color: "#f472b6",
+    tags: ["React.js", "Django", "REST API", "Tailwind CSS"],
     num: "01",
+    featured: true,
   },
   {
     name: "EYRA",
-    tagline: "Social Media Platform",
+    tagline: "Eyewear E-Commerce",
     description:
-      "A social platform for connecting and sharing content — featuring feeds, profiles, likes, and real-time-style updates.",
+      "An eyewear shopping application with product browsing, wishlist, shopping cart, and order management features.",
     image: EYRA,
     link: "#",
-    tags: ["React.js", "Django", "PostgreSQL", "CSS"],
-    color: "#818cf8",
+    tags: ["React.js", "Django REST", "PostgreSQL", "Docker"],
     num: "02",
+    featured: false,
   },
   {
     name: "ZIAS",
-    tagline: "School Management System",
+    tagline: "Academic Management System",
     description:
-      "A comprehensive admin system for managing students, teachers, batches, and courses — built with React and Django REST Framework.",
+      "A full-stack academic management system designed to support student, mentor, and administrative workflows.",
     image: ZIAS,
     link: "https://zias-frontend.onrender.com/",
-    tags: ["React.js", "Django REST", "Tailwind", "JWT"],
-    color: "#34d399",
+    tags: ["React.js", "Django REST", "PostgreSQL", "JWT"],
     num: "03",
+    featured: false,
   },
 ];
 
@@ -45,147 +46,259 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative py-28 px-6 md:px-16 bg-[#050508] text-white overflow-hidden"
-      style={{ fontFamily: "'Syne', sans-serif" }}
+      className="relative isolate overflow-hidden bg-[#03140c] px-5 py-24 text-white sm:px-8 md:px-16 md:py-32"
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-        .project-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.07);
-          transition: border-color 0.4s, transform 0.4s;
-          overflow: hidden;
+        .projects-card {
+          background: linear-gradient(
+            155deg,
+            rgba(16, 45, 30, 0.72),
+            rgba(5, 20, 13, 0.94)
+          );
+          border: 1px solid rgba(110, 231, 183, 0.12);
+          transition:
+            transform 350ms ease,
+            border-color 350ms ease,
+            box-shadow 350ms ease;
         }
-        .project-card:hover {
-          transform: translateY(-8px);
+
+        .projects-card:hover {
+          transform: translateY(-7px);
+          border-color: rgba(110, 231, 183, 0.4);
+          box-shadow: 0 22px 55px rgba(0, 0, 0, 0.24);
         }
-        .project-img {
-          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-          transform-origin: center top;
+
+        .projects-image {
+          transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .project-card:hover .project-img { transform: scale(1.04); }
-        .project-overlay {
-          background: linear-gradient(to top, rgba(5,5,8,0.95) 0%, rgba(5,5,8,0.5) 50%, transparent 100%);
+
+        .projects-card:hover .projects-image {
+          transform: scale(1.045);
         }
-        .proj-tag {
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.1);
-          transition: border-color 0.2s;
+
+        .projects-tag {
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          background: rgba(255, 255, 255, 0.035);
+          transition:
+            border-color 250ms ease,
+            background 250ms ease;
         }
-        .proj-tag:hover { border-color: rgba(255,255,255,0.25); }
-        .view-btn {
-          transition: gap 0.2s, padding-right 0.2s;
+
+        .projects-card:hover .projects-tag {
+          border-color: rgba(110, 231, 183, 0.16);
+          background: rgba(16, 185, 129, 0.055);
         }
-        .view-btn:hover { gap: 10px; }
+
+        .projects-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: gap 250ms ease, color 250ms ease;
+        }
+
+        .projects-link:hover {
+          gap: 13px;
+        }
+
+        .projects-link:focus-visible {
+          outline: 2px solid #6ee7b7;
+          outline-offset: 5px;
+          border-radius: 4px;
+        }
+
+        .projects-heading-gradient {
+          background: linear-gradient(
+            110deg,
+            #a7f3d0 5%,
+            #34d399 55%,
+            #fcd34d 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .projects-card,
+          .projects-image,
+          .projects-tag,
+          .projects-link {
+            transition: none;
+          }
+
+          .projects-card:hover,
+          .projects-card:hover .projects-image {
+            transform: none;
+          }
+        }
       `}</style>
 
-      {/* blobs */}
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)" }} />
+      {/* Background glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 top-20 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)",
+        }}
+      />
 
-      {/* header */}
-      <div className="max-w-6xl mx-auto mb-16">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-8 h-px bg-purple-500" />
-          <span className="text-purple-400 text-xs tracking-[0.25em] uppercase font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Work
-          </span>
-        </div>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
-            Featured{" "}
-            <span style={{
-              background: "linear-gradient(135deg, #a855f7, #ec4899)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>
-              Projects
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 bottom-0 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(250,204,21,0.07), transparent 70%)",
+        }}
+      />
+
+      <div className="mx-auto max-w-7xl">
+        {/* Section heading */}
+        <div className="mb-14 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-end">
+          <div className="max-w-3xl">
+            <div className="mb-5 flex items-center gap-3">
+              <span className="h-px w-9 bg-emerald-400" />
+
+              <span className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300">
+                Selected Work
+              </span>
+            </div>
+
+            <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+              Projects That{" "}
+              <span className="projects-heading-gradient">
+                Bring Ideas to Life
+              </span>
+            </h2>
+
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
+              A selection of full-stack applications built with modern
+              frontend technologies and Python-powered backends.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 self-start rounded-full border border-emerald-300/15 bg-emerald-300/[0.04] px-4 py-2 md:self-auto">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <span className="text-xs font-medium tracking-wide text-gray-300">
+              Featured Portfolio
             </span>
-          </h2>
-          <p className="text-gray-500 text-sm max-w-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Real-world applications built from scratch during my fullstack training.
+          </div>
+        </div>
+
+        {/* Project cards */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {projects.map((project, index) => (
+            <article
+              key={project.name}
+              className="projects-card group overflow-hidden rounded-2xl"
+              onMouseEnter={() => setHovered(index)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {/* Image */}
+              <div className="relative h-56 overflow-hidden bg-[#0a2115] sm:h-64">
+                <img
+                  src={project.image}
+                  alt={`${project.name} project preview`}
+                  loading="lazy"
+                  className="projects-image h-full w-full object-cover"
+                />
+
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-[#03140c] via-[#03140c]/10 to-transparent"
+                />
+
+                {/* Project number */}
+                <span className="absolute left-5 top-5 text-4xl font-bold tracking-tight text-white/65">
+                  {project.num}
+                </span>
+
+                {/* Project status */}
+                <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-[#03140c]/75 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200 backdrop-blur-md">
+                  {project.link === "#" ? "In Development" : "Live Project"}
+                </span>
+
+                {/* Image bottom label */}
+                <div className="absolute bottom-4 left-5">
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-300">
+                    {project.tagline}
+                  </p>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 sm:p-7">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="text-2xl font-bold tracking-wide text-white">
+                    {project.name}
+                  </h3>
+
+                  <span
+                    aria-hidden="true"
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                      hovered === index
+                        ? "border-emerald-300/40 bg-emerald-300/10 text-emerald-200"
+                        : "border-white/10 text-gray-500"
+                    }`}
+                  >
+                    <span className="text-lg">↗</span>
+                  </span>
+                </div>
+
+                <p className="min-h-[84px] text-sm leading-7 text-gray-400">
+                  {project.description}
+                </p>
+
+                {/* Technologies */}
+                <div className="mb-7 mt-5 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="projects-tag rounded-full px-3 py-1.5 text-[11px] font-medium text-gray-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Link */}
+                <div className="border-t border-white/[0.07] pt-5">
+                  {project.link !== "#" ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${project.name} live project`}
+                      className="projects-link text-sm font-semibold text-emerald-300 hover:text-emerald-200"
+                    >
+                      View Live Project
+                      <span aria-hidden="true" className="text-lg">
+                        →
+                      </span>
+                    </a>
+                  ) : (
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-gray-500">
+                      <span
+                        aria-hidden="true"
+                        className="h-1.5 w-1.5 rounded-full bg-yellow-400"
+                      />
+                      Project link coming soon
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Closing message */}
+        <div className="mt-16 text-center">
+          <div className="mx-auto mb-5 h-px w-16 bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
+
+          <p className="text-sm leading-7 text-gray-400 sm:text-base">
+            Designed to solve problems. Built to create meaningful experiences.
           </p>
         </div>
-      </div>
-
-      {/* cards */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {projects.map((project, i) => (
-          <div
-            key={i}
-            className="project-card rounded-2xl"
-            style={{ borderColor: hovered === i ? `${project.color}30` : "rgba(255,255,255,0.07)" }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-          >
-            {/* image area */}
-            <div className="relative h-52 overflow-hidden rounded-t-2xl">
-              <img
-                src={project.image}
-                alt={project.name}
-                className="project-img w-full h-full object-cover"
-              />
-              <div className="project-overlay absolute inset-0" />
-              {/* number */}
-              <div
-                className="absolute top-4 left-4 text-4xl font-extrabold leading-none select-none opacity-20"
-                style={{ color: project.color }}
-              >
-                {project.num}
-              </div>
-              {/* color accent dot */}
-              <div
-                className="absolute top-4 right-4 w-2 h-2 rounded-full"
-                style={{ background: project.color, boxShadow: `0 0 10px ${project.color}` }}
-              />
-            </div>
-
-            {/* content */}
-            <div className="p-6">
-              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: project.color, fontFamily: "'DM Sans', sans-serif" }}>
-                {project.tagline}
-              </p>
-              <h3 className="text-xl font-extrabold mb-3 text-white">{project.name}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                {project.description}
-              </p>
-
-              {/* tags */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map(tag => (
-                  <span key={tag} className="proj-tag text-gray-400 text-[11px] font-medium px-2.5 py-1 rounded-full" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              {/* Project Link */}
-              {project.link !== "#" ? (
-                <a 
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="view-btn text-sm font-semibold"
-                  style={{
-                    color: project.color,
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}
-                >
-                  View Project
-                  <span className="text-lg">→</span>
-                </a>  
-              ) : (
-                <span
-                  className="text-gray-600 text-sm font-medium"
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}
-                >
-                  Coming Soon
-                </span>  
-              )}
-            </div>
-          </div>
-        ))}
       </div>
     </section>
   );

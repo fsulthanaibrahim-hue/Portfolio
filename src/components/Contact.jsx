@@ -1,228 +1,338 @@
+
 import React, { useState } from "react";
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaPhone,
+} from "react-icons/fa";
+
+const contacts = [
+  {
+    key: "email",
+    icon: <FaEnvelope />,
+    label: "Email Address",
+    value: "fsulthanaibrahim@gmail.com",
+    href: "mailto:fsulthanaibrahim@gmail.com",
+  },
+  {
+    key: "phone",
+    icon: <FaPhone />,
+    label: "Phone Number",
+    value: "+91 7012445229",
+    href: "tel:+917012445229",
+  },
+];
+
+const socials = [
+  {
+    icon: <FaGithub />,
+    label: "GitHub",
+    sub: "Explore my projects and code",
+    href: "https://github.com/fsulthanaibrahim-hue",
+  },
+  {
+    icon: <FaLinkedin />,
+    label: "LinkedIn",
+    sub: "Connect with me professionally",
+    href: "https://www.linkedin.com/in/fathimath-sulthana-57922839a/",
+  },
+];
 
 const Contact = () => {
   const [copied, setCopied] = useState(null);
+  const [copyError, setCopyError] = useState(null);
 
-  const copy = (text, key) => {
-    navigator.clipboard.writeText(text);
-    setCopied(key);
-    setTimeout(() => setCopied(null), 2000);
+  const copy = async (text, key) => {
+    try {
+      if (!navigator.clipboard || !window.isSecureContext) {
+        throw new Error("Clipboard access is unavailable");
+      }
+
+      await navigator.clipboard.writeText(text);
+      setCopied(key);
+      setCopyError(null);
+
+      window.setTimeout(() => {
+        setCopied((current) => (current === key ? null : current));
+      }, 2000);
+    } catch {
+      setCopied(null);
+      setCopyError(key);
+    }
   };
-
-  const contacts = [
-    {
-      key: "email",
-      icon: <FaEnvelope />,
-      label: "Email",
-      value: "fsulthanaibrahim@gmail.com",
-      href: "mailto:fsulthanaibrahim@gmail.com",
-      color: "#a855f7",
-      copyable: true,
-    },
-    {
-      key: "phone",
-      icon: <FaPhone />,
-      label: "Phone",
-      value: "+91 7012445229",
-      href: "tel:+917012445229",
-      color: "#ec4899",
-      copyable: true,
-    },
-  ];
-
-  const socials = [
-    {
-      icon: <FaGithub />,
-      label: "GitHub",
-      sub: "fsulthanaibrahim-hue",
-      href: "https://github.com/fsulthanaibrahim-hue",
-      color: "#e2e8f0",
-    },
-    {
-      icon: <FaLinkedin />,
-      label: "LinkedIn",
-      sub: "fsulthanaibrahim",
-      href: "https://www.linkedin.com/in/fathimath-sulthana-57922839a/",
-      color: "#60a5fa",
-    },
-  ];
 
   return (
     <section
       id="contact"
-      className="relative py-28 px-6 md:px-16 bg-[#050508] text-white overflow-hidden"
-      style={{ fontFamily: "'Syne', sans-serif" }}
+      className="relative isolate overflow-hidden bg-[#03140c] px-5 py-24 text-white sm:px-8 md:px-16 md:py-32"
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
         .contact-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.07);
-          transition: border-color 0.3s, transform 0.3s;
+          background: linear-gradient(
+            145deg,
+            rgba(16, 45, 30, 0.72),
+            rgba(5, 22, 14, 0.88)
+          );
+          border: 1px solid rgba(110, 231, 183, 0.13);
+          transition:
+            transform 300ms ease,
+            border-color 300ms ease,
+            box-shadow 300ms ease;
         }
+
         .contact-card:hover {
-          border-color: rgba(168,85,247,0.25);
           transform: translateY(-4px);
+          border-color: rgba(110, 231, 183, 0.35);
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
         }
-        .social-card {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-          transition: border-color 0.3s, background 0.3s, transform 0.3s;
+
+        .contact-social {
+          background: rgba(255, 255, 255, 0.025);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          transition:
+            transform 300ms ease,
+            border-color 300ms ease,
+            background 300ms ease;
         }
-        .social-card:hover {
-          background: rgba(168,85,247,0.05);
-          border-color: rgba(168,85,247,0.2);
+
+        .contact-social:hover {
+          transform: translateY(-4px);
+          border-color: rgba(110, 231, 183, 0.3);
+          background: rgba(16, 185, 129, 0.055);
+        }
+
+        .contact-copy {
+          border: 1px solid rgba(110, 231, 183, 0.16);
+          background: rgba(16, 185, 129, 0.06);
+          transition: background 200ms ease, border-color 200ms ease;
+        }
+
+        .contact-copy:hover {
+          background: rgba(16, 185, 129, 0.14);
+          border-color: rgba(110, 231, 183, 0.35);
+        }
+
+        .contact-cta {
+          background: linear-gradient(115deg, #047857, #059669 60%, #b99a42);
+          box-shadow: 0 10px 35px rgba(5, 150, 105, 0.18);
+          transition: transform 250ms ease, box-shadow 250ms ease;
+        }
+
+        .contact-cta:hover {
           transform: translateY(-3px);
+          box-shadow: 0 16px 40px rgba(5, 150, 105, 0.25);
         }
-        .copy-btn {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.08);
-          transition: background 0.2s, border-color 0.2s;
+
+        .contact-heading-gradient {
+          background: linear-gradient(
+            110deg,
+            #a7f3d0 5%,
+            #34d399 55%,
+            #fcd34d 100%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
-        .copy-btn:hover { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); }
-        .mailto-btn {
-          transition: transform 0.2s, box-shadow 0.2s;
+
+        .contact-focus:focus-visible {
+          outline: 2px solid #6ee7b7;
+          outline-offset: 4px;
         }
-        .mailto-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(139,92,246,0.35);
-        }
-        .availability-pulse {
-          animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .contact-card,
+          .contact-social,
+          .contact-copy,
+          .contact-cta {
+            transition: none;
+          }
+
+          .contact-card:hover,
+          .contact-social:hover,
+          .contact-cta:hover {
+            transform: none;
+          }
         }
       `}</style>
 
-      {/* blobs */}
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(236,72,153,0.09) 0%, transparent 70%)" }} />
-      <div className="absolute top-0 left-1/2 w-[300px] h-[300px] rounded-full pointer-events-none -translate-x-1/2"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)" }} />
+      {/* Background glows */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-32 top-0 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(16,185,129,0.13), transparent 70%)",
+        }}
+      />
 
-      {/* header */}
-      <div className="max-w-4xl mx-auto mb-16 text-center">
-        <div className="flex items-center justify-center gap-3 mb-5">
-          <div className="w-8 h-px bg-purple-500" />
-          <span className="text-purple-400 text-xs tracking-[0.25em] uppercase font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Contact
-          </span>
-          <div className="w-8 h-px bg-purple-500" />
-        </div>
-        <h2 className="text-4xl md:text-6xl font-extrabold leading-tight mb-5">
-          Let's{" "}
-          <span style={{
-            background: "linear-gradient(135deg, #a855f7, #ec4899)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            Connect
-          </span>
-        </h2>
-        <p className="text-gray-400 text-base leading-relaxed max-w-xl mx-auto" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-          Open to new projects, freelance opportunities, and collaboration ideas. I typically respond within 24 hours.
-        </p>
-      </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 bottom-0 -z-10 h-96 w-96 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(250,204,21,0.07), transparent 70%)",
+        }}
+      />
 
-      <div className="max-w-3xl mx-auto space-y-5">
-        {/* availability banner */}
-        <div className="flex items-center justify-between bg-emerald-500/5 border border-emerald-500/15 rounded-2xl px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 availability-pulse" />
-            <span className="text-emerald-400 text-sm font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Available for opportunities
+      <div className="mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-px w-9 bg-emerald-400" />
+
+            <span className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300">
+              Get in Touch
             </span>
+
+            <span className="h-px w-9 bg-emerald-400" />
           </div>
-          <span className="text-gray-600 text-xs" style={{ fontFamily: "'DM Sans', sans-serif" }}>Actively seeking roles</span>
+
+          <h2 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+            Let's Build Something{" "}
+            <span className="contact-heading-gradient">Meaningful</span>
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
+            Have a project idea, a job opportunity, or an interesting
+            collaboration in mind? I'd love to hear from you.
+          </p>
         </div>
 
-        {/* contact cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {contacts.map((c) => (
-            <div key={c.key} className="contact-card rounded-2xl p-5">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0 mt-0.5"
-                    style={{ background: `${c.color}15`, color: c.color, border: `1px solid ${c.color}25` }}
-                  >
-                    {c.icon}
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-xs uppercase tracking-widest mb-1 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                      {c.label}
-                    </p>
-                    <a
-                      href={c.href}
-                      className="text-white text-sm font-medium hover:text-purple-300 transition break-all"
-                      style={{ fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      {c.value}
-                    </a>
-                  </div>
+        {/* Availability */}
+        <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.04] p-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400"
+            />
+
+            <div>
+              <p className="text-sm font-semibold text-emerald-200">
+                Open to Opportunities
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-gray-400">
+                Full-stack development roles and project collaborations
+              </p>
+            </div>
+          </div>
+
+          <span className="text-xs text-gray-500">
+            Python · React · Full Stack
+          </span>
+        </div>
+
+        {/* Email and phone */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {contacts.map((contact) => (
+            <div
+              key={contact.key}
+              className="contact-card rounded-2xl p-5 sm:p-6"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-emerald-300/15 bg-emerald-300/[0.06] text-xl text-emerald-300">
+                  {contact.icon}
                 </div>
-                {c.copyable && (
-                  <button
-                    onClick={() => copy(c.value, c.key)}
-                    className="copy-btn flex-shrink-0 rounded-lg px-2.5 py-1.5 text-xs text-gray-400 hover:text-purple-300 transition"
-                    style={{ fontFamily: "'DM Sans', sans-serif" }}
+
+                <div className="min-w-0 flex-1">
+                  <p className="mb-1 text-xs font-medium uppercase tracking-[0.16em] text-gray-500">
+                    {contact.label}
+                  </p>
+
+                  <a
+                    href={contact.href}
+                    className="contact-focus break-all text-sm font-medium text-gray-100 transition hover:text-emerald-300"
                   >
-                    {copied === c.key ? "✓ Copied" : "Copy"}
-                  </button>
-                )}
+                    {contact.value}
+                  </a>
+                </div>
               </div>
+
+              <div className="mt-5 flex items-center justify-between border-t border-white/[0.07] pt-4">
+                <a
+                  href={contact.href}
+                  className="contact-focus text-xs font-medium text-emerald-300 hover:text-emerald-200"
+                >
+                  {contact.key === "email" ? "Send an email" : "Call me"} →
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => copy(contact.value, contact.key)}
+                  className="contact-copy contact-focus rounded-lg px-3 py-2 text-xs font-medium text-gray-300"
+                  aria-label={`Copy ${contact.label.toLowerCase()}`}
+                >
+                  {copied === contact.key
+                    ? "✓ Copied"
+                    : copyError === contact.key
+                    ? "Copy unavailable"
+                    : "Copy"}
+                </button>
+              </div>
+
+              {copyError === contact.key && (
+                <p role="status" className="mt-2 text-xs text-amber-300">
+                  Clipboard access failed. You can select and copy the contact
+                  details manually.
+                </p>
+              )}
             </div>
           ))}
         </div>
 
-        {/* social cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {socials.map((s, i) => (
+        {/* Social links */}
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {socials.map((social) => (
             <a
-              key={i}
-              href={s.href}
+              key={social.label}
+              href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="social-card rounded-2xl p-5 flex items-center gap-4 group"
+              aria-label={`Visit my ${social.label} profile`}
+              className="contact-social contact-focus group flex items-center gap-4 rounded-2xl p-5 sm:p-6"
             >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                style={{ background: `${s.color}12`, color: s.color, border: `1px solid ${s.color}20` }}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-emerald-300/15 bg-emerald-300/[0.06] text-xl text-emerald-300">
+                {social.icon}
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <h3 className="text-sm font-semibold text-white">
+                  {social.label}
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-gray-500">
+                  {social.sub}
+                </p>
+              </div>
+
+              <span
+                aria-hidden="true"
+                className="text-lg text-gray-500 transition group-hover:translate-x-1 group-hover:text-emerald-300"
               >
-                {s.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-semibold" style={{ fontFamily: "'DM Sans', sans-serif" }}>{s.label}</p>
-                <p className="text-gray-500 text-xs truncate" style={{ fontFamily: "'DM Sans', sans-serif" }}>{s.sub}</p>
-              </div>
-              <svg className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
+                ↗
+              </span>
             </a>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center pt-4">
+        {/* Main CTA */}
+        <div className="mt-12 text-center">
           <a
             href="mailto:fsulthanaibrahim@gmail.com"
-            className="mailto-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-semibold text-sm"
-            style={{
-              background: "linear-gradient(135deg, #7c3aed, #a855f7, #ec4899)",
-              boxShadow: "0 8px 32px rgba(139,92,246,0.25)",
-            }}
+            className="contact-cta contact-focus inline-flex items-center justify-center gap-3 rounded-xl px-7 py-4 text-sm font-semibold text-white sm:px-9"
           >
             <FaEnvelope className="text-lg" />
-            Send me an email
+            Let's Talk
+            <span aria-hidden="true">→</span>
           </a>
-        </div>
 
-        <p className="text-center text-gray-600 text-xs pt-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-          I'm actively seeking fullstack developer opportunities. Let's build something amazing together.
-        </p>
+          <p className="mx-auto mt-6 max-w-lg text-xs leading-6 text-gray-500">
+            I'm looking forward to connecting with people who enjoy building
+            useful products and solving real-world problems.
+          </p>
+        </div>
       </div>
     </section>
   );
