@@ -20,7 +20,12 @@ const Hero = () => {
       canvas.height = window.innerHeight;
 
       particles = Array.from(
-        { length: Math.min(65, Math.floor(window.innerWidth / 20)) },
+        {
+          length: Math.min(
+            65,
+            Math.floor(window.innerWidth / 20)
+          ),
+        },
         () => ({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -37,17 +42,28 @@ const Hero = () => {
     };
 
     const drawParticles = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
 
       particles.forEach((particle, index) => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        if (particle.x < 0 || particle.x > canvas.width) {
+        if (
+          particle.x < 0 ||
+          particle.x > canvas.width
+        ) {
           particle.speedX *= -1;
         }
 
-        if (particle.y < 0 || particle.y > canvas.height) {
+        if (
+          particle.y < 0 ||
+          particle.y > canvas.height
+        ) {
           particle.speedY *= -1;
         }
 
@@ -63,11 +79,17 @@ const Hero = () => {
         ctx.fillStyle = `rgba(${particle.color}, ${particle.opacity})`;
         ctx.fill();
 
-        for (let j = index + 1; j < particles.length; j++) {
+        for (
+          let j = index + 1;
+          j < particles.length;
+          j++
+        ) {
           const other = particles[j];
           const dx = particle.x - other.x;
           const dy = particle.y - other.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const distance = Math.sqrt(
+            dx * dx + dy * dy
+          );
 
           if (distance < 100) {
             ctx.beginPath();
@@ -82,11 +104,13 @@ const Hero = () => {
         }
       });
 
-      animationFrame = requestAnimationFrame(drawParticles);
+      animationFrame =
+        requestAnimationFrame(drawParticles);
     };
 
     resizeCanvas();
     drawParticles();
+
     window.addEventListener("resize", resizeCanvas);
 
     return () => {
@@ -95,9 +119,12 @@ const Hero = () => {
     };
   }, []);
 
-  // Stretching liquid cursor
+  // Liquid cursor animation
   useEffect(() => {
-    const cursor = document.querySelector(".liquid-cursor");
+    const cursor = document.querySelector(
+      ".liquid-cursor"
+    );
+
     if (!cursor) return;
 
     let previousX = 0;
@@ -106,30 +133,43 @@ const Hero = () => {
     const moveCursor = (event) => {
       const dx = event.clientX - previousX;
       const dy = event.clientY - previousY;
-      const speed = Math.min(Math.sqrt(dx * dx + dy * dy) / 100, 0.35);
+
+      const speed = Math.min(
+        Math.sqrt(dx * dx + dy * dy) / 100,
+        0.35
+      );
 
       cursor.style.left = `${event.clientX}px`;
       cursor.style.top = `${event.clientY}px`;
+
       cursor.style.transform = `translate(-50%, -50%) scale(${
         1 + speed
       }, ${1 - speed * 0.5})`;
 
-      cursor.classList.add("liquid-cursor-visible");
+      cursor.classList.add(
+        "liquid-cursor-visible"
+      );
 
       previousX = event.clientX;
       previousY = event.clientY;
     };
 
     const hideCursor = () => {
-      cursor.classList.remove("liquid-cursor-visible");
+      cursor.classList.remove(
+        "liquid-cursor-visible"
+      );
     };
 
     const pressCursor = () => {
-      cursor.classList.add("liquid-cursor-pressed");
+      cursor.classList.add(
+        "liquid-cursor-pressed"
+      );
     };
 
     const releaseCursor = () => {
-      cursor.classList.remove("liquid-cursor-pressed");
+      cursor.classList.remove(
+        "liquid-cursor-pressed"
+      );
     };
 
     window.addEventListener("mousemove", moveCursor);
@@ -144,16 +184,6 @@ const Hero = () => {
       window.removeEventListener("mouseup", releaseCursor);
     };
   }, []);
-
-  const technologies = [
-    "Python",
-    "Django",
-    "Flask",
-    "FastAPI",
-    "React.js",
-    "TypeScript",
-    "PostgreSQL",
-  ];
 
   return (
     <section
@@ -268,9 +298,12 @@ const Hero = () => {
       `}</style>
 
       {/* Liquid cursor */}
-      <div className="liquid-cursor" aria-hidden="true" />
+      <div
+        className="liquid-cursor"
+        aria-hidden="true"
+      />
 
-      {/* Full green gradient background */}
+      {/* Background gradient */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
@@ -282,7 +315,9 @@ const Hero = () => {
       {/* Green background glow */}
       <div
         className="hero-glow pointer-events-none absolute -left-40 top-0 -z-10 h-[450px] w-[450px] rounded-full blur-[120px]"
-        style={{ background: "rgba(16, 185, 129, 0.30)" }}
+        style={{
+          background: "rgba(16, 185, 129, 0.30)",
+        }}
       />
 
       {/* Yellow accent glow */}
@@ -294,10 +329,12 @@ const Hero = () => {
         }}
       />
 
-      {/* Subtle green light in the center */}
+      {/* Center green glow */}
       <div
         className="pointer-events-none absolute left-1/3 top-1/3 -z-10 h-80 w-80 rounded-full blur-[120px]"
-        style={{ background: "rgba(34, 197, 94, 0.12)" }}
+        style={{
+          background: "rgba(34, 197, 94, 0.12)",
+        }}
       />
 
       {/* Particle canvas */}
@@ -348,13 +385,15 @@ const Hero = () => {
               sequence={[
                 "Python Full Stack Developer",
                 2000,
-                "Django Developer",
+                "Django & Django REST Framework Developer",
                 2000,
                 "Flask Developer",
                 2000,
                 "FastAPI Developer",
                 2000,
-                "React.js Developer",
+                "React.js & Next.js Developer",
+                2000,
+                "REST API Developer",
                 2000,
                 "Building Real-World Applications",
                 2000,
@@ -363,52 +402,42 @@ const Hero = () => {
               speed={50}
               repeat={Infinity}
             />
+
             <span className="ml-1 inline-block h-6 w-[2px] animate-pulse bg-emerald-400 align-middle" />
           </div>
 
-          {/* Description */}
+          {/* Introduction paragraph */}
           <p className="mt-6 max-w-xl text-base leading-8 text-gray-300 sm:text-lg">
-            I build modern, responsive, and user-friendly web applications
-            using Python, Django, Flask, FastAPI, React, and modern web
-            technologies. I enjoy turning real-world problems into practical
-            digital solutions.
+            I am a Python Full Stack Developer focused on
+            building modern, responsive, and user-friendly
+            web applications. I work with Python backend
+            frameworks including Django, Django REST
+            Framework, Flask, and FastAPI, along with
+            React.js, Next.js, and TypeScript for frontend
+            development. I enjoy designing REST APIs,
+            working with databases, and turning real-world
+            problems into practical digital solutions.
           </p>
 
-          {/* Technology badges */}
-          <div className="mt-7 flex max-w-xl flex-wrap gap-2.5">
-            {technologies.map((technology, index) => (
-              <span
-                key={technology}
-                className={`rounded-full border px-3.5 py-2 text-xs font-medium transition duration-300 hover:-translate-y-1 sm:text-sm ${
-                  index % 3 === 0
-                    ? "border-emerald-300/30 bg-emerald-400/10 text-emerald-100 hover:bg-emerald-400/20"
-                    : index % 3 === 1
-                    ? "border-yellow-300/30 bg-yellow-300/10 text-yellow-100 hover:bg-yellow-300/20"
-                    : "border-green-100/15 bg-green-100/5 text-gray-200 hover:border-emerald-300/40"
-                }`}
-              >
-                {technology}
-              </span>
-            ))}
-          </div>
-
-          {/* Action buttons */}
+          {/* Hero action buttons */}
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <a
-              href="#projects"
+              href="#contact"
               className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-emerald-400 to-green-500 px-7 py-3.5 text-sm font-bold text-[#04110a] shadow-lg shadow-emerald-500/20 transition duration-300 hover:-translate-y-1 hover:shadow-emerald-400/35 sm:text-base"
             >
-              View Projects
+              Let's Connect
+
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
             </a>
 
             <a
-              href="#contact"
+              href="#projects"
               className="glass-panel inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-semibold text-yellow-200 transition duration-300 hover:-translate-y-1 hover:border-yellow-300/40 hover:bg-yellow-300/10 sm:text-base"
             >
-              Let's Talk
+              Explore My Work
+
               <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -416,11 +445,12 @@ const Hero = () => {
           {/* Scroll indicator */}
           <a
             href="#about"
-            className="mt-12 inline-flex items-center gap-3 text-sm text-emerald-100/60 transition hover:text-yellow-300"
+            className="mt-8 inline-flex items-center gap-3 text-sm text-emerald-100/60 transition hover:text-yellow-300"
           >
             <span className="flex h-9 w-6 items-start justify-center rounded-full border border-emerald-200/30 p-1.5">
               <span className="h-2 w-1 rounded-full bg-yellow-300" />
             </span>
+
             Scroll to explore
           </a>
         </div>
@@ -456,7 +486,7 @@ const Hero = () => {
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className="text-xs uppercase tracking-[0.2em] text-emerald-300">
-                        Full Stack Development
+                        Python Full Stack Development
                       </p>
 
                       <h2 className="mt-2 text-lg font-bold text-white sm:text-xl">
@@ -480,8 +510,12 @@ const Hero = () => {
             </span>
 
             <div>
-              <p className="text-sm font-bold text-white">Python</p>
-              <p className="text-xs text-emerald-100/60">Backend</p>
+              <p className="text-sm font-bold text-white">
+                Python
+              </p>
+              <p className="text-xs text-emerald-100/60">
+                Backend
+              </p>
             </div>
           </div>
 
@@ -495,8 +529,12 @@ const Hero = () => {
             </span>
 
             <div>
-              <p className="text-sm font-bold text-white">FastAPI</p>
-              <p className="text-xs text-yellow-100/60">REST APIs</p>
+              <p className="text-sm font-bold text-white">
+                FastAPI
+              </p>
+              <p className="text-xs text-yellow-100/60">
+                REST APIs
+              </p>
             </div>
           </div>
 
